@@ -1,0 +1,5 @@
+CLIENT 
+install 
+   Vite
+   Tailwind
+   react-router-dom
