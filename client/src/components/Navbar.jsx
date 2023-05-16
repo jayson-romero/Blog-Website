@@ -6,7 +6,7 @@ const navigation = [
   { name: 'Technology', linkto: '/cat=technology', current: true },
   { name: 'Design', linkto: '/cat=design', current: false },
   { name: 'Food', linkto: '/cat=food', current: false },
-  { name: 'Cinema', linkto: '/cat=cinema', current: false },
+  { name: 'Hobbies', linkto: '/cat=hobbies', current: false },
 ]
 
 function classNames(...classes) {
