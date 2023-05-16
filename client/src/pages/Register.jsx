@@ -1,6 +1,29 @@
+import { useState } from "react"
 import { Link } from "react-router-dom"
+import axios from "axios"
 
 const Register = () => {
+  const [inputs, setInputs] = useState({
+    username: "",
+    email: "",
+    password: "",
+  })
+
+  const handleChange = e => {
+    setInputs(prev=>({...prev, [e.target.name]: e.target.value}))
+  }
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+    try {
+      const res = await axios.post("/auth/register", inputs)
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
+    
+  }
+
   return (
     <div>
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -28,6 +51,7 @@ const Register = () => {
               name="username"
               type="text"
               placeholder="Username"
+              onChange={handleChange}
               required
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-[10px]"
             />
@@ -44,6 +68,7 @@ const Register = () => {
               name="email"
               type="text"
               placeholder="Email"
+              onChange={handleChange}
               required
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-[10px]"
             />
@@ -67,6 +92,7 @@ const Register = () => {
               name="password"
               type="password"
               placeholder="Password"
+              onChange={handleChange}
               required
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-[10px]"
             />
@@ -79,6 +105,7 @@ const Register = () => {
 
         <div>
           <button
+            onClick={handleSubmit}
             type="submit"
             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >

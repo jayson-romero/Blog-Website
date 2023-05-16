@@ -1,5 +1,22 @@
 CLIENT 
 install 
-   Vite
-   Tailwind
-   react-router-dom
+   Vite -                 npm create vite@latest
+   Tailwind               npm install -D tailwindcss postcss autoprefixer
+                          npx tailwindcss init -p   
+   react-router-dom       npm install react-router-dom 
+   react-quill -          npm install react-quill --save
+   axios                  npm install axios
+
+SERVER 
+install
+   NPM                    npm init -y
+   express                npm install express
+   mysql                  npm install mysql 
+   nodemon                npm install nodemon 
+   bcryptjs               npm install bcryptjs
+
+   step 
+      * setup the express
+      * connect with the db
+      * create table on mysql
+      * create routes
