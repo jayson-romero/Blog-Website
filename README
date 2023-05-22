@@ -11,9 +11,12 @@ SERVER
 install
    NPM                    npm init -y
    express                npm install express
+   cors                   npm i cors
    mysql                  npm install mysql 
    nodemon                npm install nodemon 
    bcryptjs               npm install bcryptjs
+   jsonwebtoken           npm install jsonwebtoken
+   cookie-parser          npm install cookie-parser
 
    step 
       * setup the express

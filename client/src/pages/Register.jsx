@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 
 const Register = () => {
@@ -9,6 +9,9 @@ const Register = () => {
     password: "",
   })
 
+  const [err, setError] = useState(null)
+  const navigate = useNavigate();
+
   const handleChange = e => {
     setInputs(prev=>({...prev, [e.target.name]: e.target.value}))
   }
@@ -16,10 +19,12 @@ const Register = () => {
   const handleSubmit = async e => {
     e.preventDefault()
     try {
-      const res = await axios.post("/auth/register", inputs)
-      console.log(res)
+      const res = await axios.post("http://localhost:8800/api/auth/register", inputs)
+      alert(res.data)
+      navigate("/login")
     } catch (error) {
-      console.log(error)
+      setError(error.response.data)
+      // console.log(error.response.data)
     }
     
   }
@@ -99,9 +104,8 @@ const Register = () => {
           </div>
         </div>
 
-        <p className="mt-10 text-center text-sm font-semibold text-red-500">
-          This is an error
-        </p>
+        {/* ERROR MESSAGE  */}
+       { err && <p className="mt-10 text-center text-sm font-semibold text-red-500">{err}</p> }
 
         <div>
           <button

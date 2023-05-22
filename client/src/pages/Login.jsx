@@ -1,6 +1,34 @@
-import { Link } from "react-router-dom"
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios"
 
 const Login = () => {
+
+  const [inputs, setInputs] = useState({
+    username: "",
+    password: "",
+  })
+
+  const [err, setError] = useState(null)
+  const navigate = useNavigate();
+
+  const handleChange = e => {
+    setInputs(prev=>({...prev, [e.target.name]: e.target.value}))
+  }
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+    try {
+      const res = await axios.post("http://localhost:8800/api/auth/login", inputs)
+      console.log(res)
+      navigate("/")
+    } catch (error) {
+      setError(error.response.data)
+      // console.log(error.response.data)
+    }
+    
+  }
+
   return (
     <div>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -28,6 +56,7 @@ const Login = () => {
                   name="username"
                   type="text"
                   placeholder="Username"
+                  onChange={handleChange}
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-[10px]"
                 />
@@ -51,18 +80,21 @@ const Login = () => {
                   name="password"
                   type="password"
                   placeholder="Password"
+                  onChange={handleChange}
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-[10px]"
                 />
               </div>
             </div>
 
-            <p className="mt-10 text-center text-sm font-semibold text-red-500">
-              This is an error
-            </p>
+            {/* ERROR MESSAGE  */}
+           { err && <p className="mt-10 text-center text-sm font-semibold text-red-500">
+             {err}
+            </p>}
 
             <div>
               <button
+                onClick={handleSubmit}
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
