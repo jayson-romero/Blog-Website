@@ -1,7 +1,9 @@
-import { Fragment } from 'react'
+import { Fragment, useContext } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon,  XMarkIcon } from '@heroicons/react/24/outline'
 import {Link} from 'react-router-dom'
+import { AuthContext } from '../context/authContext'
+
 const navigation = [
   { name: 'Technology', linkto: '/cat=technology', current: true },
   { name: 'Design', linkto: '/cat=design', current: false },
@@ -14,6 +16,9 @@ function classNames(...classes) {
 }
 
 const Navbar = () => {
+
+  const { currentUser, logout } = useContext(AuthContext)
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -71,7 +76,7 @@ const Navbar = () => {
                   type="button"
                   className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
-                  <span>Jayson</span>
+                  <span>{currentUser?.username}</span>
                  
                 </button>
 
@@ -117,16 +122,34 @@ const Navbar = () => {
                           </Link>
                         )}
                       </Menu.Item>
+
+                     {  currentUser ?  (
                       <Menu.Item>
+                        {({ active }) => (
+                          <div
+                            onClick={logout}
+                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                          >
+                            Sign in
+                          </div>
+                        )}
+                      </Menu.Item> 
+                   
+
+                      ) : (
+                        <Menu.Item>
                         {({ active }) => (
                           <Link
                             to="/login"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            Sign out
+                            Sign in
                           </Link>
                         )}
-                      </Menu.Item>
+                      </Menu.Item> 
+                      )
+                    } 
+
                     </Menu.Items>
                   </Transition>
                 </Menu>
