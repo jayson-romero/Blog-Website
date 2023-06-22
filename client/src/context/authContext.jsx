@@ -4,20 +4,33 @@ import axios from "axios"
 export const AuthContext = createContext()
 
 export const AuthContextProvider = ({children})=> {
-   const [ currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem("user")))
+   const [ currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem("auth_token")) || null)
+
+
 
    const login = async(inputs) => {
-      const res = await axios.post("http://localhost:8800/api/auth/login", inputs)
-      setCurrentUser(res.data)
+      try {
+         const res = await axios.post("http://localhost:8800/api/auth/login", inputs)
+         setCurrentUser(res.data)
+      } catch (error) {
+         throw error.response.data
+      }
+     
    };
 
    const logout = async(inputs) => {
-       await axios.post("http://localhost:8800/api/auth/logout", inputs)
-      setCurrentUser(null)
+      try {
+         await axios.post("http://localhost:8800/api/auth/logout", inputs)
+         setCurrentUser(null)
+      } catch (error) {
+         console.log(error)
+      }
+     
    };
 
+   // Load token from local storage on component mount
    useEffect(() => {
-      localStorage.setItem("user", JSON.stringify(currentUser))
+      localStorage.setItem("auth_token", JSON.stringify(currentUser))
    }, [currentUser])
 
    return (

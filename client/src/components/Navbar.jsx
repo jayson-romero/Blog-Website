@@ -1,7 +1,7 @@
 import { Fragment, useContext } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon,  XMarkIcon } from '@heroicons/react/24/outline'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/authContext'
 
 const navigation = [
@@ -18,6 +18,16 @@ function classNames(...classes) {
 const Navbar = () => {
 
   const { currentUser, logout } = useContext(AuthContext)
+  const navigate = useNavigate()
+  const handlelogout = () => {
+    try {
+      logout()
+      navigate("/login")
+    } catch (error) {
+        console.log(error)
+    }
+  }
+  
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -127,7 +137,7 @@ const Navbar = () => {
                       <Menu.Item>
                         {({ active }) => (
                           <div
-                            onClick={logout}
+                            onClick={handlelogout}
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Sign in
